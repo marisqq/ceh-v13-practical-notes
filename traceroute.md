@@ -1,16 +1,16 @@
-Windows
---
-tracert google.com
+Windows  
+--  
+tracert google.com  
 
-tracert -h tracert /? - command list
+tracert -h tracert /? - command list  
 
-tracert -h 5 - maximum number of hops
+tracert -h 5 - maximum number of hops  
 
-Linux 
---
-traceroute 
+Linux   
+--  
+traceroute   
 
-Additional tools
---
-PingPlotter
-TracerouteNg
+Additional tools  
+--  
+PingPlotter  
+TracerouteNg  

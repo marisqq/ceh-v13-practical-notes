@@ -1,21 +1,21 @@
 
-Pre-requisites:
+Pre-requisites:  
 --------------------
-Local machine - Rocky linux 10 with Parrot OS VM
+Local machine - Rocky linux 10 with Parrot OS VM  
 
-Server - Ubuntu server with libvirt (Ryzen 7 7700, 32GB, 3080, 1TB)
+Server - Ubuntu server with libvirt (Ryzen 7 7700, 32GB, 3080, 1TB)  
 
-Images for VM's:
+Images for VM's:  
 ----------------------
-- https://www.parrotsec.org/download/
-- https://www.microsoft.com/lv-lv/software-download/windows11
-- https://www.microsoft.com/en-us/evalcenter/download-windows-server-2019
-- https://www.microsoft.com/en-us/evalcenter/download-windows-server-2022
-- https://ubuntu.com/download/server/thank-you?version=24.04.3&architecture=amd64&lts=true
+- https://www.parrotsec.org/download/  
+- https://www.microsoft.com/lv-lv/software-download/windows11  
+- https://www.microsoft.com/en-us/evalcenter/download-windows-server-2019  
+- https://www.microsoft.com/en-us/evalcenter/download-windows-server-2022  
+- https://ubuntu.com/download/server/thank-you?version=24.04.3&architecture=amd64&lts=true  
 
-All VM's in - 10.10.10.0/24
+All VM's in - 10.10.10.0/24  
 
-*Add two interfaces for setup, one isolated and one for downloading necessary prerequisites*
+*Add two interfaces for setup, one isolated and one for downloading necessary prerequisites*  
 
 | VM Name                | Role              | IP Address | VNC Port          |
 | ---------------------- | ----------------- | ---------- | ----------------- |

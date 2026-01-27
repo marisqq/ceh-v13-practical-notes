@@ -1,4 +1,4 @@
-Google dorks
+Google dorks  
 
 
 | ilter                                   | Description                                                                               | Example                                               |
@@ -18,10 +18,10 @@ Google dorks
 | allinpostauthor (and also inpostauthor) | Exclusively for the blog search, blog posts written by specific people are picked out.    | `allinpostauthor:"keyword"`                           |
 | related                                 | List web pages that are "similar" to a given web page.                                    | `related:www.github.com`                              |
 | cache                                   | Displays the version of the web page that Google has in its cache.                        | `cache:www.github.com`                                |
-OR
-site:instagram.com | site:github.com
-AND
-site:github.com & site:twitter.com
-Combine
-(site:instagram.com | site:twitter.com) (intext:"admin")
-(site:instagram.com | site:twitter.com) & intext:"admin"
+OR  
+site:instagram.com | site:github.com  
+AND  
+site:github.com & site:twitter.com  
+Combine  
+(site:instagram.com | site:twitter.com) (intext:"admin")  
+(site:instagram.com | site:twitter.com) & intext:"admin"  
