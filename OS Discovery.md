@@ -1,4 +1,0 @@
-
-Active/Passive banner grabbing  
--------------------------------------------
-

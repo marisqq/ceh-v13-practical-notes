@@ -22,7 +22,8 @@ UPD scan
 
 
 -------------------------
-Check if ICMP ping is passing trough firewall:  
+Check if ICMP ping is passing trough firewall:   
+
 nmap -sn -PE [range of IP or IP] 10.10.1.10-23   
 ![](../img/Pasted%20image%2020260127212020.png)  
 Echo ping sweep  
