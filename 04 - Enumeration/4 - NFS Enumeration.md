@@ -17,3 +17,7 @@ Check if nfs is open
 SuperEnum  
 -------------
 
+![](../img/Pasted%20image%2020260312104416.png)  
+
+-Sucks, cause no option to clearly see what was canned, givees errors and doesnt stop on its own  
+
