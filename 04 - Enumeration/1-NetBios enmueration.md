@@ -30,3 +30,36 @@
 
 ---------------------------------------------------------------
 
+## Enum4linux (Linux - SMB/NetBIOS enumeration)
+
+`enum4linux -a [ip]` | full enumeration (users, shares, groups, OS, policies)  
+`enum4linux -u "" -p "" [ip]` | null session enumeration  
+`enum4linux -U [ip]` | enumerate users  
+`enum4linux -S [ip]` | enumerate shares  
+`enum4linux -G [ip]` | enumerate groups  
+`enum4linux -P [ip]` | password policy  
+
+---------------------------------------------------------------
+
+## SMB Null Session (Windows)
+
+Establish null session to target:  
+`net use \\10.10.1.22\IPC$ "" /u:""`  
+
+Then enumerate:  
+`net view \\10.10.1.22` - shared resources  
+
+---------------------------------------------------------------
+
+## Nmap NetBIOS/SMB Scripts
+
+`nmap -sV -p 139,445 --script nbstat.nse [ip]` - NetBIOS info  
+`nmap --script smb-enum-shares [ip]` - enumerate shares  
+`nmap --script smb-enum-users [ip]` - enumerate users  
+`nmap --script smb-os-discovery [ip]` - OS info via SMB  
+
+---------------------------------------------------------------
+
+## Global Network Inventory / Hyena
+- Windows GUI tools for NetBIOS enumeration  
+- Can browse network, view shares, users, groups  
