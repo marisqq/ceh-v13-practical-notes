@@ -14,7 +14,7 @@
 ```
 # From Parrot (root terminal) - let these run in background
 # SCAN ALL 3 SUBNETS - exact IPs shown at exam start
-nmap -sS -sV -O -p- -oA scan1 10.10.55.0/24 &  
+sudo nmap -sS -sV -O -p- -oA scan1 10.10.55.0/24 &  
 nmap -sS -sV -O -p- -oA scan2 192.168.44.0/24 &  
 nmap -sS -sV -O -p- -oA scan3 192.168.200.0/24 &  
 
