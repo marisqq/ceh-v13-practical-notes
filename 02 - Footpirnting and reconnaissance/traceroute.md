@@ -1,15 +1,15 @@
 Windows  
 --  
 tracert google.com  
-
+  
 tracert -h tracert /? - command list  
-
+  
 tracert -h 5 - maximum number of hops  
-
-Linux   
+  
+Linux  
 --  
-traceroute   
-
+traceroute  
+  
 Additional tools  
 --  
 PingPlotter  
