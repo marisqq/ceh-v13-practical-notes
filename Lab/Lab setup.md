@@ -3,135 +3,129 @@
 ## Architecture
 
 ```
-Attacker Machine (Parrot/Kali)
+Attacker (Parrot/Kali)
         |
-        └── Isolated Lab Network (10.10.55.0/24)
+        └── Isolated network (10.10.55.0/24)
                 |
                 ├── Web Target (10.10.55.10) — DVWA + WordPress + FTP + MySQL
                 ├── Linux Target (10.10.55.11) — SSH, SNMP, NFS, SMTP, weak users
                 ├── AD Target (10.10.55.22) — Samba AD DC
-                └── Steg/Crypto (10.10.55.13) — file server with challenges
+                └── Steg/Crypto (10.10.55.13) — challenge files
 ```
 
 ---
 
-## Lab Targets Overview
+## Targets
 
-### Web Target — 10.10.55.10
-Services: Apache, MariaDB, DVWA, WordPress, FTP, MySQL
+### Web — 10.10.55.10
+Apache, MariaDB, DVWA, WordPress, FTP, MySQL
 
-**CTF Flags:**
-1. `http://10.10.55.10/dvwa` — login admin/password, practice SQLi, command injection, XSS
+Flags:
+1. `http://10.10.55.10/dvwa` — admin/password, SQLi, cmd injection, XSS
 2. `http://10.10.55.10/sqli.php?id=1` — SQLMap target
 3. `http://10.10.55.10/cmd.php` — command injection
 4. `http://10.10.55.10/wordpress` — WPScan target
 5. FTP anonymous → flag.txt
 6. FTP brute force ftpuser → secret.txt
 
-### Linux Target — 10.10.55.11
-Services: SSH, SNMP, NFS, SMTP, hash files
+### Linux — 10.10.55.11
+SSH, SNMP, NFS, SMTP, hash files
 
-**CTF Flags:**
+Flags:
 1. SSH brute force: alice → "cupcake"
-2. SNMP enum: `snmpwalk -v2c -c public 10.10.55.11`
-3. NFS: `showmount -e 10.10.55.11` → mount → read confidential.txt
+2. SNMP: `snmpwalk -v2c -c public 10.10.55.11`
+3. NFS: `showmount -e 10.10.55.11` → mount → confidential.txt
 4. SMTP: `smtp-user-enum -M VRFY -U users.txt -t 10.10.55.11`
 5. Hash cracking: NTLM hashes in /home/alice/hashes.txt
 
-### AD Target — 10.10.55.22
-Services: Samba AD DC (Kerberos 88, LDAP 389, SMB 445)
+### AD — 10.10.55.22
+Samba AD DC (Kerberos 88, LDAP 389, SMB 445)
 
-**CTF Flags:**
+Flags:
 1. Identify DC: `nmap -p 88,389,445 10.10.55.22`
-2. LDAP enum: `ldapsearch -x -h 10.10.55.22 -b "dc=CEH,dc=COM"`
+2. LDAP: `ldapsearch -x -h 10.10.55.22 -b "dc=CEH,dc=COM"`
 3. AS-REP Roast Joshua
 4. Password spray with "cupcake"
-5. SMB enum: `enum4linux -a 10.10.55.22`
+5. SMB: `enum4linux -a 10.10.55.22`
 
 ---
 
-## Steg + Crypto Challenge Files
-
-Create challenge files on your desktop:
+## Steg + crypto challenges
 
 ```bash
 mkdir -p ~/ceh-ctf/steg-crypto && cd ~/ceh-ctf/steg-crypto
 
-# --- Steganography ---
-# 1. Steghide (JPEG)
+# steghide (JPEG)
 steghide embed -cf sample.jpg -ef secret.txt -p "password123"
-# Extract: steghide extract -sf sample.jpg -p password123
+# extract: steghide extract -sf sample.jpg -p password123
 
-# 2. Snow (whitespace steganography)
+# snow (whitespace steg)
 snow -C -m "FLAG{snow_whitespace_secret}" -p "letmein" cover.txt stego.txt
-# Extract: snow -C -p "letmein" stego.txt
+# extract: snow -C -p "letmein" stego.txt
 
-# 3. Binwalk (embedded file)
+# binwalk (embedded file)
 cat photo.jpg secret.zip > suspicious.jpg
-# Extract: binwalk -e suspicious.jpg
+# extract: binwalk -e suspicious.jpg
 
-# --- Crypto ---
-# 4. Hash comparison (find tampered file)
+# hash comparison
 md5sum file*.txt
 
-# 5. Hash cracking
+# hash cracking
 # hashcat -m 0 crack_this.txt rockyou.txt
 ```
 
 ---
 
-## Wireshark Practice
+## Wireshark filters
 
-**Filters to memorize:**
-
-| Find This | Filter |
-|-----------|--------|
+| What | Filter |
+|------|--------|
 | FTP password | `ftp.request.command == "PASS"` |
-| HTTP POST (login forms) | `http.request.method == "POST"` |
-| All traffic from IP | `ip.addr == 10.10.55.10` |
-| DNS queries | `dns` |
-| SMTP traffic | `smtp` |
-| Find the scanner | `tcp.flags.syn == 1 && tcp.flags.ack == 0` |
-| Extract file/data | Right-click → Follow → TCP Stream |
+| HTTP POST | `http.request.method == "POST"` |
+| Traffic from IP | `ip.addr == 10.10.55.10` |
+| DNS | `dns` |
+| SMTP | `smtp` |
+| Find scanner | `tcp.flags.syn == 1 && tcp.flags.ack == 0` |
+| Extract data | Right-click → Follow → TCP Stream |
 
 ---
 
-## CTF Flag Checklist
+## Flag checklist
 
 ### Web (10.10.55.10)
-- [ ] SQLMap: find database names via sqli.php
+- [ ] SQLMap: find databases via sqli.php
 - [ ] SQLMap: dump DVWA users table
-- [ ] Command injection: read /etc/passwd via cmd.php
-- [ ] WPScan: enumerate WordPress users
-- [ ] WPScan: brute force WordPress login
-- [ ] Nikto: identify web server version
-- [ ] dirb: find hidden directories
-- [ ] FTP anonymous: retrieve flag.txt
-- [ ] FTP brute force: get ftpuser's secret.txt
+- [ ] Command injection: /etc/passwd via cmd.php
+- [ ] WPScan: enumerate users
+- [ ] WPScan: brute force login
+- [ ] Nikto: web server version
+- [ ] dirb: hidden directories
+- [ ] FTP anonymous: flag.txt
+- [ ] FTP brute force: ftpuser's secret.txt
 
 ### Linux (10.10.55.11)
-- [ ] Hydra SSH: crack alice's password
-- [ ] SNMP: enumerate system info with snmpwalk
-- [ ] NFS: mount share, read confidential.txt
-- [ ] SMTP: enumerate valid users
-- [ ] Hash cracking: crack NTLM hashes from hashes.txt
+- [ ] Hydra SSH: alice's password
+- [ ] SNMP: system info
+- [ ] NFS: mount share, confidential.txt
+- [ ] SMTP: valid users
+- [ ] Hash cracking: NTLM from hashes.txt
 
 ### AD (10.10.55.22)
-- [ ] Nmap: identify as Domain Controller (port 88+389)
-- [ ] LDAP: enumerate domain users
-- [ ] AS-REP Roast: get Joshua's hash and crack it
-- [ ] Password spray: find other users with "cupcake"
-- [ ] SMB: enumerate shares and users
+- [ ] Nmap: identify DC (88+389)
+- [ ] LDAP: domain users
+- [ ] AS-REP Roast: Joshua's hash
+- [ ] Password spray: who else uses "cupcake"
+- [ ] SMB: shares and users
 
-### Steg/Crypto (local files)
+### Steg/Crypto
 - [ ] Steghide: extract from JPEG
-- [ ] Snow: extract from text file
+- [ ] Snow: extract from text
 - [ ] binwalk: extract embedded file
 - [ ] Hash comparison: find tampered file
 - [ ] MD5 cracking
-- [ ] VeraCrypt: mount and read contents
+- [ ] VeraCrypt: mount and read
 
-### Wireshark (local pcap)
-- [ ] Find FTP credentials in pcap
-- [ ] Identify scanning activity
-- [ ] Follow TCP stream to extract data
+### Wireshark
+- [ ] FTP credentials in pcap
+- [ ] Scanning activity
+- [ ] Follow TCP stream
