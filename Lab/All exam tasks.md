@@ -1,13 +1,12 @@
-# 100% CEH Practical Exam Coverage  
+# All exam tasks
+
+Every exam task mapped to where I practice it.
+
+---
+
+## Coverage map  
   
-> Every possible exam task mapped to where you practice it.  
-> Nothing left uncovered.  
-  
----  
-  
-## Coverage Map  
-  
-| # | Exam Topic (by flag count) | Proxmox CTF | EC-Council Lab | Desktop Practice |  
+| # | Exam Topic (by flag count) | Lab CTF | EC-Council Lab | Desktop Practice |  
 |---|---------------------------|-------------|----------------|-----------------|  
 | 1 | SQLi / SQLMap (2-3 flags) | ✅ Mission 2.1, 2.5, 6.1 | — | — |  
 | 2 | Web App Attacks - cmd injection (1-2) | ✅ Mission 2.2, 2.5 | — | — |  
@@ -34,11 +33,11 @@
   
 ---  
   
-## What's NOT in Proxmox CTF — Must Practice Elsewhere  
-  
-### 16. Steganography — Practice on Desktop (30 min)  
-  
-Do this on your Parrot VM or Fedora desktop:  
+## Not in the lab — practice elsewhere
+
+### 16. Steganography — desktop (30 min)
+
+On Parrot VM or Fedora:  
   
 ```bash  
 # SETUP: Create challenge files  
@@ -123,7 +122,7 @@ echo '8621ffdbc5698829397d97767ac13db3' > md5hash3.txt   # "dragon"
 ### 18. Wireshark / Packet Analysis — Practice on Desktop (30 min)  
   
 ```bash  
-# OPTION A: Capture your own traffic from Proxmox lab  
+# OPTION A: Capture your own traffic from lab  
   
 # Terminal 1: Start capture  
 sudo tcpdump -i any -w lab_capture.pcap host 10.10.55.10 or host 10.10.55.11 &  
@@ -211,9 +210,9 @@ adb pull /sdcard/[filename] .
   
 ---  
   
-### 22. Metasploit / Meterpreter — You Already Know This  
-  
-From your M06 lab today. Quick recap for exam:  
+### 22. Metasploit / Meterpreter
+
+Quick recap for exam:  
   
 ```  
 # Exploit target (usually via SMB)  
@@ -234,14 +233,14 @@ clearev
   
 ---  
   
-## Complete Practice Schedule  
+## Practice schedule  
   
-### Day 1 (Today): Proxmox CTF  
+### Day 1 (Today): Lab CTF  
 - Install Parrot VM  
 - Run through all 20 CTF missions  
 - Set up steganography + hash practice files on desktop  
   
-### Day 2: Proxmox CTF Speedrun + Wireshark  
+### Day 2: Lab CTF Speedrun + Wireshark  
 - Speedrun all 20 missions (target: <3 hours)  
 - Capture lab traffic → practice Wireshark filters  
 - Practice steganography challenges  
@@ -256,7 +255,7 @@ clearev
   
 ### Day 4: Full Mock Exam  
 - Set 6-hour timer  
-- Scan Proxmox lab from scratch (pretend you've never seen it)  
+- Scan lab from scratch (pretend you've never seen it)  
 - Use only your cheatsheets  
 - Include steg/hash/Wireshark challenges  
 - Score yourself: each mission = 1 flag = 10 points  
@@ -269,7 +268,7 @@ clearev
   
 ---  
   
-## Final Checklist — Can You Do These In <5 Min Each?  
+## Quick check — can I do these in <5 min each?  
   
 ### Scanning  
 - [ ] Discover all hosts on a subnet  

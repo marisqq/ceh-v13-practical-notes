@@ -1,13 +1,11 @@
-# CEH Practical CTF — Hack The Lab  
-  
-> You are a penetration tester hired to assess the security of ACME Corp's network (10.10.55.0/24).  
-> Your client suspects breaches. Find all flags. Clock is ticking.  
-  
-**Rules:**  
-- Use only your Parrot VM (10.10.55.5) as attacker  
-- Open your cheatsheets — that's your exam advantage  
-- Time yourself — each challenge should take <10 min once you know the flow  
-- Don't look at the answers until you've tried  
+# Practice challenges
+
+Pentest scenario — ACME Corp network (10.10.55.0/24), find all the flags.
+
+- Attacker: Parrot VM (10.10.55.5)
+- Use cheatsheets
+- Each challenge should take <10 min
+- Try before looking at answers  
   
 ---  
   
@@ -203,7 +201,7 @@ Tasks:
   
 SQLi: `' OR 1=1 #` in the User ID field  
 Cmd Injection: `; cat /etc/passwd` in the IP field  
-XSS Reflected: `<script>alert('XSS')</script>` in the input  
+XSS Reflected: `&lt;script&gt;alert('XSS')&lt;/script&gt;` in the input
 XSS Stored: same payload in the guestbook Name field  
   
 </details>  
@@ -570,42 +568,34 @@ Tasks:
   
 ---  
   
-## Scoring  
-  
-| Phase | Challenges | Exam Weight |  
-|-------|-----------|-------------|  
-| Phase 1: Recon | 3 missions | 15% |  
-| Phase 2: Web Attacks | 5 missions | 35% |  
-| Phase 3: Password Cracking | 3 missions | 15% |  
-| Phase 4: Enumeration | 5 missions | 15% |  
-| Phase 5: AD Attacks | 3 missions | 15% |  
-| Phase 6: Database | 1 mission | 5% |  
-  
-**Total: 20 missions — same as the exam!**  
-  
----  
-  
-## Speedrun Mode  
-  
-Once you've done all missions at least once, try the speedrun:  
-  
-```  
-⏱ SET A 3-HOUR TIMER (half of exam time)  
-  
-Target: Complete all 20 missions  
-Gold:   < 2 hours  
-Silver: < 3 hours  
-Bronze: < 4 hours  
-  
-If you can Gold this, you WILL pass the exam.  
-```  
+## Scoring
+
+| Phase | Challenges | Exam weight |
+|-------|-----------|-------------|
+| Recon | 3 missions | 15% |
+| Web attacks | 5 missions | 35% |
+| Password cracking | 3 missions | 15% |
+| Enumeration | 5 missions | 15% |
+| AD attacks | 3 missions | 15% |
+| Database | 1 mission | 5% |
+
+Total: 20 missions, same as the exam.  
   
 ---  
   
-## After Each Practice Session  
-  
-Ask yourself:  
-1. Which mission took the longest? Why?  
-2. Did I need to Google anything? Add it to the cheatsheet.  
-3. Which tool syntax did I mess up? Practice that command 5 more times.  
-4. Could I do this faster? What step can I skip?  
+## Speedrun mode
+
+After doing all missions once, try the speedrun:
+
+- 3 hour timer (half of exam time)
+- Gold: < 2 hours, Silver: < 3 hours, Bronze: < 4 hours
+- If I can gold this, I pass the exam
+
+---
+
+## After each session
+
+1. Which mission took the longest? Why?
+2. Did I google anything? Add it to the cheatsheet.
+3. Which tool syntax did I mess up? Practice 5 more times.
+4. Could I do this faster?  

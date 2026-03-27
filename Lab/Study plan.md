@@ -1,16 +1,14 @@
 # What Goes Where  
   
-## Proxmox Lab (build these)  
+## Lab Targets  
   
-| Container | RAM | What You Practice |  
-|-----------|-----|-------------------|  
-| LXC 110: web-target (10.10.55.10) | 512MB | DVWA (SQLi, cmd injection, XSS), WordPress (WPScan), FTP (Hydra), MySQL, Nikto, dirb |  
-| LXC 111: linux-target (10.10.55.11) | 256MB | SSH brute force (Hydra), SNMP enum, NFS shares, SMTP enum, hash files |  
-| LXC 112: ad-target (10.10.55.22) | 2GB | Samba AD DC, Kerberos (port 88), LDAP (389), AS-REP Roast, Kerberoast, SMB enum, password spraying |  
+| Target | What You Practice |  
+|--------|-------------------|  
+| Web Target (10.10.55.10) | DVWA (SQLi, cmd injection, XSS), WordPress (WPScan), FTP (Hydra), MySQL, Nikto, dirb |  
+| Linux Target (10.10.55.11) | SSH brute force (Hydra), SNMP enum, NFS shares, SMTP enum, hash files |  
+| AD Target (10.10.55.22) | Samba AD DC, Kerberos (port 88), LDAP (389), AS-REP Roast, Kerberoast, SMB enum, password spraying |  
   
-**Total: ~3GB RAM, all run simultaneously, nothing else needs to stop**  
-  
-Your desktop = attacker machine (Parrot/Kali/Fedora with nmap, hydra, sqlmap, metasploit, etc)  
+Your desktop = attacker machine (Parrot/Kali/Fedora with nmap, hydra, sqlmap, metasploit, etc)
   
 ---  
   
@@ -60,7 +58,7 @@ Your desktop = attacker machine (Parrot/Kali/Fedora with nmap, hydra, sqlmap, me
   
 ## Practice Schedule  
   
-### Days 1-3: Proxmox CTF grinding  
+### Days 1-3: Lab CTF grinding  
 - Build lab → run through all flags  
 - Repeat until you can do each flag in <5 minutes  
 - Focus order: Web attacks → Password cracking → AD attacks → Enumeration  
@@ -71,6 +69,6 @@ Your desktop = attacker machine (Parrot/Kali/Fedora with nmap, hydra, sqlmap, me
   
 ### Day 5: Full mock exam  
 - Set 6-hour timer  
-- Scan all Proxmox subnets from scratch  
+- Scan all lab subnets from scratch  
 - Try to find every flag using only your cheatsheets  
 - Practice time management  
