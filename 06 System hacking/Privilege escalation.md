@@ -139,10 +139,10 @@ Got meterpreter session?
   
 The exam doesn't ask "escalate privileges". It asks for a **value**:  
   
-| Question Pattern | What To Do |  
-|-----------------|------------|  
-| "What is the password of user X?" | `hashdump` → crack with hashcat/john |  
-| "How many users on the machine?" | `shell` → `net user` → count |  
-| "What is the OS of machine X?" | `sysinfo` |  
-| "Find the secret in file X" | `search -f filename` → `download` → `cat` |  
-| "What groups does user X belong to?" | `shell` → `net user [username]` |  
+| Question Pattern                     | What To Do                                |     |  
+| ------------------------------------ | ----------------------------------------- | --- |  
+| "What is the password of user X?"    | `hashdump` → crack with hashcat/john      |     |  
+| "How many users on the machine?"     | `shell` → `net user` → count              |     |  
+| "What is the OS of machine X?"       | `sysinfo`                                 |     |  
+| "Find the secret in file X"          | `search -f filename` → `download` → `cat` |     |  
+| "What groups does user X belong to?" | `shell` → `net user [username]`           |     |  
